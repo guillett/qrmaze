@@ -28,9 +28,9 @@ let mazeData
 let mazeColor = 0
 let player
 let pointer
-let margin = 1
+let margin = 0.1
 let size = 12
-const max_speed = size * 3
+let max_speed = () => size * 3
 const game = {
   type: Phaser.AUTO,
   physics: {
@@ -79,7 +79,7 @@ const game = {
     update: function() {
       let cursors = this.input.keyboard.createCursorKeys()
       let velocityUpdated
-      const speed = max_speed
+      const speed = max_speed()
       if (cursors.left.isDown)
       {
           player.setVelocityX(-speed);
@@ -130,8 +130,8 @@ const game = {
           pointer.fillStyle(0x000000ff, 1);
           pointer.fillRect(this.input.pointer1.x, this.input.pointer1.y, 10, 10);
 
-          player.setVelocityX(Math.min(max_speed, (this.input.pointer1.x - this.pointer.origin.x)/ 10)) 
-          player.setVelocityY(Math.min(max_speed, (this.input.pointer1.y - this.pointer.origin.y)/ 10))
+          player.setVelocityX(Math.min(max_speed(), (this.input.pointer1.x - this.pointer.origin.x)/ 10))
+          player.setVelocityY(Math.min(max_speed(), (this.input.pointer1.y - this.pointer.origin.y)/ 10))
       }
 
       if (this.player_shape.body.touching.up || this.player_shape.body.touching.up) {

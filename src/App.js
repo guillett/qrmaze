@@ -36,8 +36,8 @@ const game = {
   physics: {
       default: 'arcade',
   },
-  width: "90%",
-  height: "90%",
+  width: "99%",
+  height: "99%",
   scene: {
     init: function() {
 

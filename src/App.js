@@ -25,6 +25,7 @@ function processPBM(data) {
 }
 
 let mazeData
+let mazeColor = 0
 let player
 let pointer
 const margin = 0
@@ -35,6 +36,8 @@ const game = {
   physics: {
       default: 'arcade',
   },
+  width: "90%",
+  height: "90%",
   scene: {
     init: function() {
 
@@ -56,7 +59,7 @@ const game = {
           if (v === "1") {
             const x = offset_x + j * size - margin
             const y = offset_y + i * size - margin
-            const w = this.add.rectangle(x, y, size + 2 * margin, size + 2 * margin, 0)
+            const w = this.add.rectangle(x, y, size + 2 * margin, size + 2 * margin, mazeColor)
             walls.add(w)
           }
         })
@@ -159,12 +162,20 @@ export default function App () {
       return
     }
     hash(item_code).then(e => {
-      fetch(`data/${e.slice(0,4)}/${e.slice(4)}.pbm`).then(response => {
+      const url_prefix = `data/${e.slice(0,4)}/${e.slice(4)}`
+      fetch(`${url_prefix}.pbm`).then(response => {
         response.text().then(data => {
           mazeData = processPBM(data)
-          game.width = Math.min(document.body.clientWidth, 400) + "px"
-          game.height = Math.min(document.body.clientHeight, 400) + "px"
-          setInitialize(true)
+          fetch(`${url_prefix}.color`).then(response => {
+            return response.text().then(data => {
+              mazeColor = parseInt(`0x${data}`)
+            })
+          }).catch(e => {
+            console.log('e', e)
+          }).finally(() => {
+            setInitialize(true)
+          })
+
         })
       })
     })

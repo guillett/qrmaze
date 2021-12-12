@@ -28,24 +28,23 @@ let mazeData
 let mazeColor = 0
 let player
 let pointer
-const margin = 0
-const size = 12
+let margin = 1
+let size = 12
 const max_speed = size * 3
 const game = {
   type: Phaser.AUTO,
   physics: {
       default: 'arcade',
   },
-  width: "90%",
-  height: "90%",
+  width: "99%",
+  height: "99%",
   scene: {
     init: function() {
-
       this.cameras.main.setBackgroundColor('#FFFFFF')
     },
     create: function() {
-      const offset_x = 10
-      const offset_y = 30
+      const offset_x = size / 2
+      const offset_y = size * 4
       let walls = this.physics.add.staticGroup();
       pointer = this.add.graphics();
 
@@ -169,6 +168,8 @@ export default function App () {
           fetch(`${url_prefix}.color`).then(response => {
             return response.text().then(data => {
               mazeColor = parseInt(`0x${data}`)
+
+              size = document.body.clientWidth / 41.5
             })
           }).catch(e => {
             console.log('e', e)
